@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telugu Movie Recommendation System</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="landing_page.css">
+    <!-- Link to external JavaScript file -->
+    <script defer>
+
+    // Function to recommend movies based on user mood
+function recommendMovies() {
+    // Get user mood input and convert it to lowercase
+    var userMood = document.getElementById('userMood').value.toLowerCase();
+    // Get the container where movie recommendations will be displayed
+    var movieContainer = document.getElementById('movieContainer');
+    // Clear previous movie recommendations
+    movieContainer.innerHTML = "";
+
+    // Sample movie data (title, image URL, and description)
+    var movies = [
+        // Movie objects with title, image, and description
+        {title: "Arjun Reddy", image: "https://m.media-amazon.com/images/M/MV5BNmY1OGJhMTQtNzA5NS00YmMxLTg3N2YtOTc2MGRjN2JlYzVmXkEyXkFqcGdeQXVyMTcyNDY1NDgw._V1_FMjpg_UX1000_.jpg", description: "A brilliant medical student starts down a self-destructive path after his girlfriend is forced to marry another man."},
+        {title: "Maharshi", image: "https://m.media-amazon.com/images/M/MV5BNzQ3YzkyMjEtNGFmYi00Y2QzLTg4NjItODMzNWQ0NzBiYWEzXkEyXkFqcGdeQXVyNjQ1MDcxNzM@._V1_.jpg", description: "A successful businessman rethinks his life choices and takes a journey of self-discovery."},
+        {title: "Baahubali: The Beginning", image: "https://stat4.bollywoodhungama.in/wp-content/uploads/2016/03/430033947.jpgg", description: "The young Shivudu learns about his heritage and embarks on an epic journey to reclaim the throne."},
+        // Add more movie objects here
+        {title: "Ala Vaikunthapurramuloo", image: "https://m.media-amazon.com/images/M/MV5BMmRkMGMzYTUtM2E2My00YjZlLWFmZjItMDA5M2EwNjNiZTNjXkEyXkFqcGdeQXVyNDY5MTUyNjU@._V1_.jpg", description: "A man discovers his true identity and confronts his past while dealing with family drama."},
+        {title: "Bharat Ane Nenu", image: "https://m.media-amazon.com/images/M/MV5BMmRkMGMzYTUtM2E2My00YjZlLWFmZjItMDA5M2EwNjNiZTNjXkEyXkFqcGdeQXVyNDY5MTUyNjU@._V1_.jpg", description: "A young politician learns the ropes and fights against corruption to bring about change."},
+        {title: "Rangasthalam", image: "https://m.media-amazon.com/images/M/MV5BMjQ1MjFkN2EtOTU4NS00NDkzLThhNzItODkzYWNjZDMxZjE0XkEyXkFqcGdeQXVyNTgxODY5ODI@._V1_.jpg", description: "A hearing-impaired villager takes on the powerful landlord to bring about change in his village."},
+        {title: "Nuvvu Nenu", image: "https://image.tmdb.org/t/p/original/xoq7fb2cAxicALz7qqHE1IBhBBm.jpg", description: "Two college students fall in love, but their relationship faces several challenges."},
+        {title: "Sye", image: "https://m.media-amazon.com/images/M/MV5BOWY1MDEwNDctMTg0Yi00MWY5LWE1Y2UtMjQ5NDI0MmQ3YjkzXkEyXkFqcGdeQXVyMTQyMzAwMjUz._V1_QL75_UY281_CR4,0,190,281_.jpg", description: "A college rugby team unites to win the national championship, overcoming personal and professional hurdles."},
+        {title: "Pokiri", image: "https://m.media-amazon.com/images/S/pv-target-images/196fbef9016aeb5eb6953ea08d042489d9dbd7a9474fa4a37758ca9465566217.jpg", description: "A fearless young man becomes a police informer to take down a notorious gangster."},
+        {title: "Aarya", image: "https://upload.wikimedia.org/wikipedia/en/3/3d/Aarya_Telugu_Movie.jpg", description: "A young man becomes embroiled in the criminal underworld to avenge his father's death."},
+        {title: "Vedam", image: "https://m.media-amazon.com/images/M/MV5BNmFmMTJiZGMtYWRjMC00ZDljLWJkZGUtYmRmMGJlYmI5MTI3XkEyXkFqcGdeQXVyNjQ3ODkxMjE@._V1_.jpg", description: "The lives of five individuals from different backgrounds intersect during a tumultuous time."},
+        {title: "Attarintiki Daredi", image: "https://m.media-amazon.com/images/M/MV5BZWQzNDdmN2UtZTc5ZC00M2EzLWE2ZTUtMjVhNzJmOGQ5YzkwXkEyXkFqcGdeQXVyMzA0NTI2OTM@._V1_.jpg", description: "A man sets out to reunite his estranged family against all odds."},
+        {title: "Eega", image: "https://rukminim2.flixcart.com/image/850/1000/av-media/movies/r/x/t/eega-original-imadehgvbe44spt8.jpeg?q=90&crop=false", description: "A murdered man reincarnates as a housefly to exact revenge on his killer."},
+        {title: "Geetha Govindam", image: "https://mrwallpaper.com/images/high/geetha-govindam-fan-art-8mwp36uhs9xexoq3.jpg", description: "A young man falls in love with a woman, but their relationship faces numerous challenges."},
+        {title: "Goodachari", image: "https://m.media-amazon.com/images/M/MV5BN2U5ZGRkMGMtNmVjMy00ODZlLTljZDYtOTZiOTQzZmIwYjNhXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg", description: "A young spy embarks on a mission to uncover the truth behind his father's death."},
+        {title: "Jersey", image: "https://www.adgully.com/img/800/202110/jersey-1.jpeg", description: "A failed cricketer decides to make a comeback in his late 30s for the sake of his son."},
+        {title: "Manam", image: "https://m.media-amazon.com/images/M/MV5BMTYzMjc3NzEzMV5BMl5BanBnXkFtZTgwNzI3NzU4MzE@._V1_.jpg", description: "A family grapples with reincarnation and the mysteries of life and death."},
+        {title: "Mirchi", image: "https://assets-in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/mirchi-et00013302-20-02-2021-06-25-48.jpg", description: "A man returns to his village to avenge his father's death and falls in love in the process."},
+        {title: "Mr. Perfect", image: "https://m.media-amazon.com/images/S/pv-target-images/9b6d53d10d7261e2545e085bf63c1658fca0d44dffc804aa3d5eba9074ff9a15.jpg", description: "A perfectionist falls in love with a free-spirited woman, leading to a clash of personalities."},
+        {title: "Nannaku Prematho", image: "https://m.media-amazon.com/images/S/pv-target-images/65699df7c6c97fb2ab827f565f1f8d6bcfe1b506cc899d0abb2c1e1d2f5cc85a.jpg", description: "A man seeks revenge against his father's enemy while dealing with family drama."},
+        {title: "Srimanthudu", image: "https://m.media-amazon.com/images/M/MV5BMmZkZDQxOWYtZDBlZi00MWUxLTk2ODEtNDFhOTcwZTZiMzAyXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg", description: "A wealthy businessman adopts a village to bring about positive change."},
+        {title: "Temper", image: "https://images.jdmagicbox.com/comp/jd_social/news/2018aug06/image-197597-l86guhdvk9.jpg", description: "A corrupt cop undergoes a transformation after meeting a sincere police officer."},
+        {title: "Tholi Prema", image: "https://m.media-amazon.com/images/M/MV5BZDM0ZTJkNDItZmMwZC00YzVlLTk4ZDctNGIzOGI4NzRiODBjXkEyXkFqcGdeQXVyNjkwOTg4MTA@._V1_.jpg", description: "Two college students fall in love, but their relationship faces several challenges."},
+        {title: "Yevadu", image: "https://m.media-amazon.com/images/M/MV5BY2ViNzVmOWEtMDg2Zi00NmE2LWE4YzAtZTNhZjBhMTFmNjIxXkEyXkFqcGdeQXVyNjQ2MjQ5NzM@._V1_FMjpg_UX1000_.jpg", description: "A man seeks revenge against those who wronged him and his loved ones."},
+        {title: "Sarileru Neekevvaru", image: "https://m.media-amazon.com/images/S/pv-target-images/d0c616e27e338cbe0ae8f0a742083dec16e6ae7204cbee8f962c2e21b0cce655.jpg", description: "An army officer takes on a mission to protect a family from a notorious gangster."},
+        {title: "Gaddalakonda Ganesh", image: "https://images.filmibeat.com/webp/img/popcorn/movie_posters/gaddalakondaganesh-20190920093948-17962.jpg", description: "A criminal mastermind faces off against a police officer determined to catch him."},
+        {title: "Dear Comrade", image: "https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/Dear_Comrade.jpg/220px-Dear_Comrade.jpg", description: "A passionate young man fights for social justice while navigating love and relationships."},
+        {title: "Jalsa", image: "https://m.media-amazon.com/images/S/pv-target-images/2fe0db3769742afba59887b3a6854b8bd4daa686fc47ca4778edd2fd0a2e84af.jpg", description: "A young man falls in love with a woman but faces opposition from her family."},
+        {title: "Happy Days", image: "https://m.media-amazon.com/images/M/MV5BY2U4NmIzYzgtNmU1OS00ODgyLTg1ZDktZGIwZTU0NTA4ZDJjXkEyXkFqcGdeQXVyNjc3MjQzNTI@._V1_.jpg", description: "A group of college students navigate friendship, love, and life."},
+        {title: "Krishna Gaadi Veera Prema Gaadha", image: "https://m.media-amazon.com/images/M/MV5BNjk0ZjFhYzItNTg2Mi00Mzg4LTlhODYtOGE0Njg1OGZjMzgyXkEyXkFqcGdeQXVyMjMxOTY5ODM@._V1_.jpg", description: "A cowardly man embarks on an adventure to save the woman he loves."},
+        {title: "Fidaa", image: "https://m.media-amazon.com/images/S/pv-target-images/da2c8e10a113baf0aa1a13717894aa37a735e43c093930edb0a3615d3add1df3.jpg", description: "An NRI falls in love with a woman from a traditional family and faces opposition from her father."},
+        {title: "Majili", image: "https://m.media-amazon.com/images/M/MV5BMzg1MDE0YjMtNTdhNy00OWNiLThjYWEtNTZjOWZlZDUzNjdmXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg", description: "A man struggles to move on from his past while finding love and redemption."},
+        {title: "Ghazi Attack", image: "https://m.media-amazon.com/images/M/MV5BNjJjODRlNTctM2IxYS00ZGQ4LTg2ZTItMTFiOTJkM2EyNmY4L2ltYWdlXkEyXkFqcGdeQXVyNjQ2MjQ5NzM@._V1_.jpg", description: "The crew of a submarine battles against all odds to protect their country."},
+    ];
+
+    // Filter movies based on user mood
+    var recommendedMovies = movies.filter(movie => movie.description.toLowerCase().includes(userMood));
+
+    // Display recommended movies
+    recommendedMovies.forEach(movie => {
+        // Create a new div for each movie
+        var movieDiv = document.createElement('div');
+        // Add 'movie' class to the div for styling
+        movieDiv.classList.add('movie');
+        // Create an image element for the movie poster
+        var img = document.createElement('img');
+        // Set the image source to the movie's image URL
+        img.src = movie.image;
+        // Create a paragraph element for the movie title
+        var title = document.createElement('p');
+        // Set the text content of the paragraph to the movie title
+        title.textContent = movie.title;
+        // Create a paragraph element for the movie description
+        var description = document.createElement('p');
+        // Set the text content of the paragraph to the movie description
+        description.textContent = movie.description;
+        // Append the image, title, and description to the movie div
+        movieDiv.appendChild(img);
+        movieDiv.appendChild(title);
+        movieDiv.appendChild(description);
+        // Append the movie div to the movie container
+        movieContainer.appendChild(movieDiv);
+    });
+}
+    </script>
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <!-- Container for header content -->
+        <div class="container">
+            <!-- Main title -->
+            <h1>Telugu Movie Recommendation System</h1>
+            <!-- Subtitle -->
+            <p>Enter your mood below to get movie recommendations</p>
+            <!-- Input field for user mood -->
+            <input type="text" id="userMood" placeholder="Enter your mood...">
+            <!-- Button to trigger movie recommendation -->
+            <button onclick="recommendMovies()">Recommend Movies</button>
+        </div>
+    </header>
+    <!-- Main section -->
+    <main>
+        <!-- Container for movie recommendations -->
+        <div id="movieContainer" class="container">
+            <!-- Movie recommendations will be displayed here -->
+        </div>
+    </main>
+    <!-- Footer section -->
+    <footer>
+        <!-- Container for footer content -->
+        <div class="container">
+            <!-- Copyright notice -->
+            <p>© 2024 Telugu Movie Recommendation System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
